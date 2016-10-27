@@ -1,11 +1,21 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use POSIX;
 
 # Get arguments
 my $gens = $ARGV[0];
 my $width = $ARGV[1];
 my $rule = $ARGV[2]; 
+
+# Set num_rules to 255 and bits to 8 by default
+my $num_rules = $ARGV[3];
+my $bits = 8;
+if($num_rules) {
+	$bits = floor(log($num_rules)/log(2)) + 1;
+} else {
+	$num_rules = 255;
+}
 
 # Set up all possible rules 0 - 255
 # 0   = 00000000
@@ -14,8 +24,8 @@ my $rule = $ARGV[2];
 # 254 = 11111110
 # 255 = 11111111
 my @rules;
-for (my $index = 255; $index >=0; $index--) {
-	push @rules, [get_bin($index, 8)];
+for (my $index = $num_rules; $index >=0; $index--) {
+	push @rules, [get_bin($index, $bits)];
 }
 
 # extract the correct binary number for this position and this rule
@@ -53,11 +63,11 @@ sub set_up_init {
 
 # Print usage
 sub usage {
-	print "$0 <number of generations> <width> <rule number (0-255)>\n";
+	print "$0 <number of generations> <width> <rule number (0-255)> [num rules]\n";
 }
 
 # Some error handling
-if (scalar @ARGV < 3 or $rule > 255) {
+if (scalar @ARGV < 3 or $rule > $num_rules) {
 	usage;
 	exit 1;
 
