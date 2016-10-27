@@ -2,6 +2,8 @@
 use strict;
 use warnings;
 use POSIX;
+use utf8;
+binmode(STDOUT, ":utf8");
 
 # Get arguments
 my $gens = $ARGV[0];
@@ -61,6 +63,18 @@ sub set_up_init {
 	
 }
 
+sub print_arr {
+	foreach my $elem (values @_) {
+		if($elem) {
+			print " ";
+		} else {
+			print "■";
+		}
+	}
+	print "\n";
+	#sleep 0.5;
+}
+
 # Print usage
 sub usage {
 	print "$0 <number of generations> <width> <rule number (0-255)> [num rules]\n";
@@ -75,8 +89,8 @@ if (scalar @ARGV < 3 or $rule > $num_rules) {
 
 # Get the initial condition and print it out
 my @initial = set_up_init;
-print @initial;
-print "\n";
+print_arr @initial;
+#print "\n";
 
 # Now loop through all the generations
 for (my $gen = 0; $gen < $gens; $gen++) {
@@ -99,8 +113,8 @@ for (my $gen = 0; $gen < $gens; $gen++) {
 	# The next state is now the new initial
 	@initial = @next;
 	# Print it out
-	print @initial;
-	print "\n";
+	print_arr @initial;
+	#print "\n";
 }
 
 exit 0
