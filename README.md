@@ -16,7 +16,7 @@ Example usage and output for rule 30:
 111110010000100110111000111111
 111100110111101000010011011111
 ```
-Example usage and output for rule 10:
+Example usage and output for rule 110:
 ```
 ./cellaut.pl 10 30 110
 111111111111110111111111111111
