@@ -72,8 +72,8 @@ sub print_arr {
 }
 
 
-print "\033[2J";    #clear the screen
-print "\033[0;0H"; #jump to 0,0
+#print "\033[2J";    #clear the screen
+#print "\033[0;0H"; #jump to 0,0
 
 my @initial = init;
 foreach my $elem (values @initial) {
@@ -86,47 +86,56 @@ for (my $gen = 0; $gen < $gens; $gen++) {
 		my @row;
 		for (my $y = 0; $y < $max; $y++) {
 			my $state;
+			# This is the upper column boundary
 			if($x == 0) {
+				# This is the left boundary of the row
 				if($y == 0 ) {
 					$state  = $initial[$max -1][$max -1] . $initial[$max -1][$y] . $initial[$max -1][$y +1 ];
-					$state .= $initial[$x][$max -1]    . $initial[$x][$y]    . $initial[$x][$y +1 ];
-					$state .= $initial[$x +1][$max -1] . $initial[$x +1][$y] . $initial[$x +1][$y +1 ];
+					$state .= $initial[$x][$max -1]      . $initial[$x][$y]      . $initial[$x][$y +1 ];
+					$state .= $initial[$x +1][$max -1]   . $initial[$x +1][$y]   . $initial[$x +1][$y +1 ];
+				# This is the right boundary of the row
 				} elsif ($y  == $max -1 ) {
 					$state  = $initial[$max -1][$y-1] . $initial[$max -1][$y] . $initial[$max -1][0];
-					$state .= $initial[$x][$y-1]    . $initial[$x][$y]    . $initial[$x][0];
-					$state .= $initial[$x +1][$y-1] . $initial[$x +1][$y] . $initial[$x +1][0];
-				# Normal, we are not on the boundary
+					$state .= $initial[$x][$y-1]      . $initial[$x][$y]      . $initial[$x][0];
+					$state .= $initial[$x +1][$y-1]   . $initial[$x +1][$y]   . $initial[$x +1][0];
+				# Normal, we are not on the boundary of the row
 				} else {
 					$state  =  $initial[$max -1][$y - 1] . $initial[$max -1][$y] . $initial[$max -1][$y +1];
-					$state .=  $initial[$x][$y - 1]    . $initial[$x][$y]    . $initial[$x][$y +1];
-					$state .=  $initial[$x +1][$y - 1] . $initial[$x +1][$y] . $initial[$x +1][$y +1];
+					$state .=  $initial[$x][$y - 1]      . $initial[$x][$y]      . $initial[$x][$y +1];
+					$state .=  $initial[$x +1][$y - 1]   . $initial[$x +1][$y]   . $initial[$x +1][$y +1];
 				}
+			# This is bottom boundary of the column 
 			} elsif ($x = $max -1) {
+				# This is the left boundary of the row
 				if($y == 0 ) {
 					$state  = $initial[$x -1][$max -1] . $initial[$x -1][$y] . $initial[$x -1][$y +1 ];
 					$state .= $initial[$x][$max -1]    . $initial[$x][$y]    . $initial[$x][$y +1 ];
-					$state .= $initial[0][$max -1] . $initial[0][$y] . $initial[0][$y +1 ];
+					$state .= $initial[0][$max -1]     . $initial[0][$y]     . $initial[0][$y +1 ];
+				# This is the right boundary of the row
 				} elsif ($y  == $max -1 ) {
 					$state  = $initial[$x -1][$y-1] . $initial[$x -1][$y] . $initial[$x -1][0];
 					$state .= $initial[$x][$y-1]    . $initial[$x][$y]    . $initial[$x][0];
-					$state .= $initial[0][$y-1] . $initial[0][$y] . $initial[0][0];
-				# Normal, we are not on the boundary
+					$state .= $initial[0][$y-1]     . $initial[0][$y]     . $initial[0][0];
+				# Normal, we are not on the boundary of the row
 				} else {
 					$state  =  $initial[$x -1][$y - 1] . $initial[$x -1][$y] . $initial[$x -1][$y +1];
 					$state .=  $initial[$x][$y - 1]    . $initial[$x][$y]    . $initial[$x][$y +1];
-					$state .=  $initial[0][$y - 1] . $initial[0][$y] . $initial[0][$y +1];
+					$state .=  $initial[0][$y - 1]     . $initial[0][$y]     . $initial[0][$y +1];
 				}
 
+			# Normal, we are not on the boundary of the column
 			} else {
+				# This is the left boundary of the row
 				if($y == 0 ) {
 					$state  = $initial[$x -1][$max -1] . $initial[$x -1][$y] . $initial[$x -1][$y +1 ];
 					$state .= $initial[$x][$max -1]    . $initial[$x][$y]    . $initial[$x][$y +1 ];
 					$state .= $initial[$x +1][$max -1] . $initial[$x +1][$y] . $initial[$x +1][$y +1 ];
+				# This is the right boundary of the row
 				} elsif ($y  == $max -1 ) {
 					$state  = $initial[$x -1][$y-1] . $initial[$x -1][$y] . $initial[$x -1][0];
 					$state .= $initial[$x][$y-1]    . $initial[$x][$y]    . $initial[$x][0];
 					$state .= $initial[$x +1][$y-1] . $initial[$x +1][$y] . $initial[$x +1][0];
-				# Normal, we are not on the boundary
+				# Normal, we are not on the boundary of anything
 				} else {
 					$state  =  $initial[$x -1][$y - 1] . $initial[$x -1][$y] . $initial[$x -1][$y +1];
 					$state .=  $initial[$x][$y - 1]    . $initial[$x][$y]    . $initial[$x][$y +1];
@@ -140,9 +149,7 @@ for (my $gen = 0; $gen < $gens; $gen++) {
 	}
 	#print "\033[2J";    #clear the screen
 	#print "\033[0;0H"; #jump to 0,0
-
 	@initial = @column;
-	#print Dumper @initial;
 	#foreach my $elem (values @initial) {
 #		print_arr $elem;
 #	}
