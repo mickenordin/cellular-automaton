@@ -98,7 +98,7 @@ for (my $gen = 0; $gen < $gens; $gen++) {
 	my @next;
 	for (my $elem = 0; $elem < $width ; $elem++) {
 		# Boundary conditions handled by modulo so we wrap around
-		my $state =  $initial[$elem - 1 % $width] . $initial[$elem] . $initial[$elem +1 % $width];
+		my $state =  $initial[ ($elem - 1) % $width] . $initial[$elem] . $initial[ ($elem +1) % $width];
 		
 		# Get the corresponding value for this state
 		$next[$elem] = get_val_at_pos oct("0b".$state);
