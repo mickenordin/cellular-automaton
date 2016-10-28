@@ -97,16 +97,9 @@ for (my $gen = 0; $gen < $gens; $gen++) {
 	# This is the next evoultion of the the automation
 	my @next;
 	for (my $elem = 0; $elem < $width ; $elem++) {
-		# Boundary conditions
-		my $state;
-		if($elem == 0  ) {
-			$state = $initial[$width -1] . $initial[$elem] . $initial[$elem +1 ] ;
-		} elsif ($elem  == $width -1 ) {
-			$state = $initial[$elem-1] . $initial[$elem] . $initial[0];
-		# Normal, we are not on the boundary
-		} else {
-			$state =  $initial[$elem - 1] . $initial[$elem] . $initial[$elem +1];
-		}
+		# Boundary conditions handled by modulo so we wrap around
+		my $state =  $initial[$elem - 1 % $width] . $initial[$elem] . $initial[$elem +1 % $width];
+		
 		# Get the corresponding value for this state
 		$next[$elem] = get_val_at_pos oct("0b".$state);
 	}
