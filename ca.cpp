@@ -40,6 +40,9 @@ long  to_int(string str) {
 
 // Get the string representation of a rule 
 string get_rule(int rule, int bits = 9) {
+	if(bits < get_bits(rule) ) {
+		bits = get_bits(rule);
+	}
 	int length = pow(2, bits);
 	string str = to_bin(rule);
 	int strl = strlen(str.c_str()); 
@@ -94,21 +97,26 @@ int main(int argc, char* argv[] ) {
 	int initial[DIM][DIM];
 	for(int i = 0; i < DIM; i++) {
 		for(int j = 0; j < DIM; j++) {
-			// Set up a random initial condition
-			initial[i][j] = rand() % 1;
+			if(i == HALF && j == HALF ) {
+				initial[i][j] =  1;
+			} else {
+				initial[i][j] =  0;
+			}
+			//initial[i][j] = rand() % 1;
 			
 		}
 	}
 	
 	// Loop all generations
 	for(int i = 0; i < gens; i++) {
+		// Clear the screen
+		cout << "\033[2J";
+		cout << "\033[0;0H";
+		cout << "Rule: " << rule << " generation: " << i << endl;
 		// Print the current state
 		print_arr(initial);
 		// Sleep 0.5 seconds
 		usleep(500000);
-		// Clear the screen
-		cout << "\033[2J";
-		cout << "\033[0;0H";
 		
 		// The next state
 		int next[DIM][DIM];
@@ -117,16 +125,17 @@ int main(int argc, char* argv[] ) {
 			char state[10];
 			// Loop the row
 			for(int k = 0; k < DIM; k++) {
-				state[0] = initial[ (j -1) % DIM ][ (k-1) % DIM ] + 48;
-				state[1] = initial[ (j -1) % DIM ][k] + 48;
-				state[2] = initial[ (j -1) % DIM ][ (k+1) % DIM ] + 48; 
-				state[3] = initial[j][ (k-1) % DIM ] + 48;
-				state[4] = initial[j][k] + 48 ;
-				state[5] = initial[j][ (k+1) % DIM ] + 48; 
-				state[6] = initial[ (j +1) % DIM ][ (k-1) % DIM ] + 48;
-				state[7] = initial[ (j +1) % DIM ][k] + 48;
-				state[8] = initial[ (j +1) % DIM ][ (k+1) % DIM ] + 48; 
 				state[9] = '\0';
+				state[8] = initial[ (j -1) % DIM ][ (k-1) % DIM ] + 48;
+				state[7] = initial[ (j -1) % DIM ][k] + 48;
+				state[6] = initial[ (j -1) % DIM ][ (k+1) % DIM ] + 48; 
+				state[5] = initial[j][ (k-1) % DIM ] + 48;
+				state[4] = initial[j][k] + 48 ;
+				state[4] = initial[j][ (k+1) % DIM ] + 48; 
+				state[2] = initial[ (j +1) % DIM ][ (k-1) % DIM ] + 48;
+				state[1] = initial[ (j +1) % DIM ][k] + 48;
+				state[0] = initial[ (j +1) % DIM ][ (k+1) % DIM ] + 48; 
+
 				next[j][k] = get_val_at_pos(to_int(state), rule);
 			}
 		}
