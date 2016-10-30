@@ -95,14 +95,23 @@ int main(int argc, char* argv[] ) {
 	
 	// Set up the initial condition
 	int initial[DIM][DIM];
+	int row = rand() % DIM;
+	int column = rand() % DIM;
 	for(int i = 0; i < DIM; i++) {
 		for(int j = 0; j < DIM; j++) {
-			if(i == HALF && j == HALF ) {
+			if(i == DIM -1 && j == HALF ) {
 				initial[i][j] =  1;
 			} else {
 				initial[i][j] =  0;
 			}
-			//initial[i][j] = rand() % 1;
+
+			//initial[i][j] = rand() % 2;
+				
+			/*if(i == column && j == row ) {
+				initial[i][j] =  1;
+			} else {
+				initial[i][j] =  0;
+			}*/
 			
 		}
 	}
@@ -115,8 +124,8 @@ int main(int argc, char* argv[] ) {
 		cout << "Rule: " << rule << " generation: " << i << endl;
 		// Print the current state
 		print_arr(initial);
-		// Sleep 0.5 seconds
-		usleep(500000);
+		// Sleep 0.05 seconds
+		usleep(50000);
 		
 		// The next state
 		int next[DIM][DIM];
