@@ -140,7 +140,7 @@ int main(int argc, char* argv[] ) {
 				state[6] = initial[ (j -1) % DIM ][ (k+1) % DIM ] + 48; 
 				state[5] = initial[j][ (k-1) % DIM ] + 48;
 				state[4] = initial[j][k] + 48 ;
-				state[4] = initial[j][ (k+1) % DIM ] + 48; 
+				state[3] = initial[j][ (k+1) % DIM ] + 48; 
 				state[2] = initial[ (j +1) % DIM ][ (k-1) % DIM ] + 48;
 				state[1] = initial[ (j +1) % DIM ][k] + 48;
 				state[0] = initial[ (j +1) % DIM ][ (k+1) % DIM ] + 48; 
